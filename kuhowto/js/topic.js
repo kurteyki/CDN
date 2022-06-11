@@ -86,6 +86,9 @@
       // animation
       ShowToast(lang.readContent, false);
 
+      /* change url history */
+      history.pushState({}, null ,href);      
+
       $.ajax({
         url: href,
         type: 'GET',
@@ -100,7 +103,7 @@
           document.title = newTitle;
 
           /* change url history */
-          history.pushState({}, newTitle ,href);
+          history.pushState({}, newTitle ,null);
 
           /* refresh data */
           $('#article-data').html($('#article-data', $(output).wrap("<div/>")).html());
@@ -110,6 +113,14 @@
 
           // enable click
           sectionHasCLick = false;
+
+
+          // if offcanvas
+          if (offcanvas == true) {
+            // on mobile close canvas
+            let openedCanvas = bootstrap.Offcanvas.getInstance($("#offcanvasLeft"));
+            openedCanvas.hide();
+          }
 
           // if hljs
           if (have_hljs == true) {
@@ -124,16 +135,11 @@
             bottomSpacing: 10
           });
 
-          // if offcanvas
-          if (offcanvas == true) {
-            // on mobile close canvas
-            let openedCanvas = bootstrap.Offcanvas.getInstance($("#offcanvasLeft"));
-            openedCanvas.hide();
-          }else{
-            // reinit spa on desktop
-            sectionSpa(offcanvas, have_hljs); 
-          }
+          // unbind first
+          $('.topic-section, .pagination').unbind();          
 
+          // reinit spa on desktop
+          sectionSpa(offcanvas, have_hljs); 
 
         }
       });
