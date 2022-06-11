@@ -111,12 +111,6 @@
           // enable click
           sectionHasCLick = false;
 
-          // if offcanvas
-          if (offcanvas == true) {
-            let openedCanvas = bootstrap.Offcanvas.getInstance($("#offcanvasLeft"));
-            openedCanvas.hide();
-          }
-
           // if hljs
           if (have_hljs == true) {
             hljs.addPlugin(new CopyButtonPlugin());
@@ -130,8 +124,17 @@
             bottomSpacing: 10
           });
 
-          // reinit spa
-          sectionSpa(offcanvas, have_hljs); 
+          // if offcanvas
+          if (offcanvas == true) {
+            // on mobile close canvas
+            let openedCanvas = bootstrap.Offcanvas.getInstance($("#offcanvasLeft"));
+            openedCanvas.hide();
+          }else{
+            // reinit spa on desktop
+            sectionSpa(offcanvas, have_hljs); 
+          }
+
+
         }
       });
 
