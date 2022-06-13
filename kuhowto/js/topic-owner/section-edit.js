@@ -25,23 +25,7 @@
             html += `
             <form id="form-section">
 
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="indonesia-tab" data-bs-toggle="tab" data-bs-target="#indonesia" type="button" role="tab" aria-controls="indonesia" aria-selected="true">
-            ID
-            </button>
-            </li>
-            <li class="nav-item" role="presentation">
-            <button class="nav-link" id="inggris-tab" data-bs-toggle="tab" data-bs-target="#inggris" type="button" role="tab" aria-controls="inggris" aria-selected="false">
-            EN
-            </button>
-            </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-
-            <div class="tab-pane py-3 show active" id="indonesia" role="tabpanel" aria-labelledby="indonesia-tab">
-
-            <!--  indonesia -->
+            <!--  general -->
             <div class="mb-3">
             <label class="form-label">Bagian</label>
             <input required="" name="title" type="text" class="form-control" placeholder="masukan nama bagian" value="${read['response']['title']}">
@@ -90,29 +74,10 @@
             <div class="mb-3 input-image-ilustrator ${(read['response']['ilustrator'].substr(0,2) != 'bi') ? '' : 'd-none'}">
             <input name="ilustrator_image" type="text" class="form-control" placeholder="https://..." value="${(read['response']['ilustrator'].substr(0,2) != 'bi') ? read['response']['ilustrator'] : ''}">
             </div>  
-            <!--  indonesia -->
-
-            </div><!-- tab-pane -->
-
-
-            <div class="tab-pane py-3" id="inggris" role="tabpanel" aria-labelledby="inggris-tab">
-
-            <!--  english -->
-            <div class="mb-3">
-            <label class="form-label">Bagian</label>
-            <input name="title_en" type="text" class="form-control" placeholder="insert section" value="${read['response_en']['title']}">
-            </div>           
-            <!--  english -->
-
-            </div><!-- tab-pane -->
-
-            </div>                          
-
+            <!--  general -->                      
+            
             <input type="hidden" value="${button.data('hash')}" name="hash"/>
-
             <button class="btn btn-primary btn-submit" type="submit">Simpan</button>
-
-            </div>
 
             </form>
             `;

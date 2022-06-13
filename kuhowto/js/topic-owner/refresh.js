@@ -11,7 +11,6 @@ function refreshContent(sort = false)
 
 			createContent();
 			editContent();
-			editContent_EN();
 			deleteContent();
 		}else{
 			ShowToast(data.response, false);                    			

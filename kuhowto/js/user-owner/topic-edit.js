@@ -24,21 +24,21 @@ function editTopic()
 
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 			<li class="nav-item" role="presentation">
-			<button class="nav-link active" id="indonesia-tab" data-bs-toggle="tab" data-bs-target="#indonesia" type="button" role="tab" aria-controls="indonesia" aria-selected="true">
-			ID
+			<button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">
+			General
 			</button>
 			</li>
 			<li class="nav-item" role="presentation">
-			<button class="nav-link" id="inggris-tab" data-bs-toggle="tab" data-bs-target="#inggris" type="button" role="tab" aria-controls="inggris" aria-selected="false">
-			EN
+			<button class="nav-link" id="options-tab" data-bs-toggle="tab" data-bs-target="#options" type="button" role="tab" aria-controls="options" aria-selected="false">
+			Pengaturan
 			</button>
 			</li>
 			</ul>
 			<div class="tab-content" id="myTabContent">
 
-			<div class="tab-pane py-3 show active" id="indonesia" role="tabpanel" aria-labelledby="indonesia-tab">
+			<div class="tab-pane py-3 show active" id="general" role="tabpanel" aria-labelledby="general-tab">
 
-			<!-- indonesia -->
+			<!-- general -->
 			<div class="mb-3">
 			<label class="form-label">Title</label>
 			<input required="" name="title" type="text" class="form-control" placeholder="apa nama topiknya ?" value="${read['response']['title']}">
@@ -113,70 +113,16 @@ function editTopic()
 			<label class="form-label">Permalink</label>
 			<input required="" name="permalink" type="text" class="form-control" placeholder="insert permalink ?" value="${read['response']['permalink']}">
 			</div>			
-			<!-- indonesia -->			
+			<!-- general -->			
 
 			</div><!-- tab-pane -->
 
 
-			<div class="tab-pane py-3" id="inggris" role="tabpanel" aria-labelledby="inggris-tab">
+			<div class="tab-pane py-3" id="options" role="tabpanel" aria-labelledby="options-tab">
 
-			<!-- engish -->
-			<div class="mb-3">
-			<label class="form-label">Title</label>
-			<input required="" name="title_en" type="text" class="form-control" placeholder="topic name ?" value="${read['response_en']['title']}">
-			</div>
-
-			<div class="mb-3">
-			<label class="form-label">Deskripsi</label>
-			<textarea id="topic_desc_en" required="" name="description_en" maxlength="150" class="form-control" rows="3" placeholder="tell about topic">${read['response_en']['description']}</textarea>
-			<div class="form-text">
-			limit karakter
-			<span class="countstr_en">${read['response_en']['description'].length}</span>/150
-			</div>
-			</div>
-
-			<div class="mb-3">
-			<label class="form-label">Kategori</label>
-			<input required="" name="categories_en" type="text" class="form-control" placeholder="what is topic categories ?" value="${read['response_en']['categories']}">
-			</div>
-
-			<div class="mb-3">
-			<label class="form-label d-flex justify-content-between">
-
-			<div>
-			Ilustrasi
-			</div>
-
-			<div>
-			<div class="form-check form-check-inline">
-			<input required value="icon" class="form-check-input" type="radio" name="ilustrator_select_en" id="status-icon-en" ${(!read['response_en']['ilustrator'] || read['response_en']['ilustrator'].substr(0,2) == 'bi') ? 'checked' : ''}>
-			<label class="form-check-label" for="status-icon-en">Icon</label>
-			</div>
-			<div class="form-check form-check-inline">
-			<input required value="image" class="form-check-input" type="radio" name="ilustrator_select_en" id="status-image-en" ${(read['response_en']['ilustrator'] && read['response_en']['ilustrator'].substr(0,2) != 'bi') ? 'checked' : ''}>
-			<label class="form-check-label text-nowrap" for="status-image-en">Image</label>
-			</div>
-			</div>
-
-			</label>
-
-			<div class="input-group input-icon-ilustrator-en ${(!read['response_en']['ilustrator'] || read['response_en']['ilustrator'].substr(0,2) == 'bi') ? '' : 'd-none'}">
-			<div class="input-group-prepend">
-			<span class="input-group-text h-100 selected-icon-en"></span>
-			</div>
-			<input type="text" class="form-control iconpicker-en" name="ilustrator_icon_en" value="${(read['response_en']['ilustrator'] && read['response_en']['ilustrator'].substr(0,2) == 'bi') ? read['response_en']['ilustrator'] : ''}"/>
-			</div>
-			</div>
-
-			<div class="mb-3 input-image-ilustrator-en ${(read['response_en']['ilustrator'] && read['response_en']['ilustrator'].substr(0,2) != 'bi') ? '' : 'd-none'}">
-			<input name="ilustrator_image_en" type="text" class="form-control" placeholder="https://..." value="${(read['response_en']['ilustrator'] && read['response_en']['ilustrator'].substr(0,2) != 'bi') ? read['response_en']['ilustrator'] : ''}">
-			</div>	
-
-			<div class="mb-3">
-			<label class="form-label">Permalink</label>
-			<input required="" name="permalink_en" type="text" class="form-control" placeholder="insert permalink" value="${read['response_en']['permalink']}">
-			</div>			
-			<!-- engish -->
+			<!-- options -->
+			<div>Nothing...</div>
+			<!-- options -->
 
 			</div><!-- tab-pane -->
 
