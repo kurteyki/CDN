@@ -65,7 +65,7 @@
 
   // spa
   function sectionSpa(offcanvas = false, have_hljs = false){
-    var sectionHasCLick = false;
+    var $request;
     $('.topic-section, .pagination').on('click','a',function(e){
       e.preventDefault(); 
       var href = $(this).attr('href');
@@ -75,28 +75,33 @@
         return false;
       }
 
-      // disable click
-      sectionHasCLick = true;
+      if ($request != null) {
+        // cancel previous ajax
+        $request.abort();
+        $request = null;
+      }
 
       // class active
       $(".nav-link, .submenu-link").removeClass("active");    
       $(this).addClass('active');
-      $(".nav-link", $(this).parents('.nav-item')).addClass('active');
+      $(".nav-link", $(this).parents('.nav-item')).addClass('active');          
 
-      // animation
-      ShowToast(lang.readContent, false);
-
-      /* change url history */
-      history.pushState({}, null ,href);      
-
-      $.ajax({
+      $request = $.ajax({
         url: href,
         type: 'GET',
         dataType: 'html',
+        beforeSend: function(){
+
+          // animation
+          NProgress.start();
+
+          /* change url history */
+          history.pushState({}, null ,href);          
+        },
         success: function(output) {
 
           // animation
-          removeToast();        
+          NProgress.done();
 
           /* change title */
           var newTitle = $(output).filter('title').text();
@@ -110,10 +115,6 @@
 
           /* go to top */
           $('html, body').animate({ scrollTop: 0 }, 0);
-
-          // enable click
-          sectionHasCLick = false;
-
 
           // if offcanvas
           if (offcanvas == true) {
