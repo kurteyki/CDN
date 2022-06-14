@@ -15,15 +15,6 @@
  	</div>
 
  	<div class="mb-3">
- 	<label class="form-label">Deskripsi</label>
- 	<textarea required="" name="description" maxlength="150" class="form-control" rows="3" placeholder="jelasin singkat tentang topiknya"></textarea>
- 	<div class="form-text">
- 	limit karakter
- 	<span class="countstr">0</span>/150
- 	</div>
- 	</div>
-
- 	<div class="mb-3">
  	<label class="form-label">Kategori</label>
  	<input required="" name="categories" type="text" class="form-control" placeholder="masuk kategori jenis apa ?">
  	</div>
@@ -123,14 +114,6 @@
 					$("#form-topic").submit();
 				}
 			});
-
-			// init textarea max length
-			$('textarea[maxlength]').on('keyup blur', function() {
-				var maxlength = $(this).attr('maxlength');
-				var val = $(this).val();
-
-				$(".countstr").html(val.length);
-			});  
 			
 			// init picker
 			createPicker();

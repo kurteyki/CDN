@@ -45,15 +45,6 @@ function editTopic()
 			</div>
 
 			<div class="mb-3">
-			<label class="form-label">Deskripsi</label>
-			<textarea id="topic_desc" required="" name="description" maxlength="150" class="form-control" rows="3" placeholder="jelasin singkat tentang topiknya">${read['response']['description']}</textarea>
-			<div class="form-text">
-			limit karakter
-			<span class="countstr">${read['response']['description'].length}</span>/150
-			</div>
-			</div>
-
-			<div class="mb-3">
 			<label class="form-label">Kategori</label>
 			<input required="" name="categories" type="text" class="form-control" placeholder="masuk kategori jenis apa ?" value="${read['response']['categories']}">
 			</div>
@@ -165,51 +156,20 @@ function editTopic()
 						}
 					});
 
-					$("input[name=ilustrator_select_en]").click(function() {
-						if ($(this).val() == 'image') {
-							$(".input-icon-ilustrator-en").addClass('d-none');
-							$(".input-image-ilustrator-en").removeClass('d-none');
-						}else{
-							$(".input-icon-ilustrator-en").removeClass('d-none');
-							$(".input-image-ilustrator-en").addClass('d-none');
-						}
-					});
-
 					formEditTopic(dialog);
 
 					$('input', $("#form-topic")).keypress(function (e) {
 						if (e.which == 13) {
 							$("#form-topic").submit();
 						}
-					});
-
-					$('textarea[maxlength]#topic_desc').on('keyup blur', function() {
-						var maxlength = $(this).attr('maxlength');
-						var val = $(this).val();
-
-						$(".countstr").html(val.length);
-					});
-
-					$('textarea[maxlength]#topic_desc_en').on('keyup blur', function() {
-						var maxlength = $(this).attr('maxlength');
-						var val = $(this).val();
-
-						$(".countstr_en").html(val.length);
-					});					
+					});		
 					
 					// init picker
 					if (read['response']['ilustrator'].substr(0,2) == 'bi') {						
 						createPicker(read['response']['ilustrator']);				
 					}else{
 						createPicker();
-					}
-
-					// init picker_en
-					if (read['response_en']['ilustrator'].substr(0,2) == 'bi') {						
-						createPicker(read['response_en']['ilustrator'], '.iconpicker-en', '.selected-icon-en');				
-					}else{
-						createPicker('bi-card-list', '.iconpicker-en', '.selected-icon-en');				
-					}					
+					}				
 				}
 			});
 
