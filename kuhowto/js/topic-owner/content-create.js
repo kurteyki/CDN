@@ -29,7 +29,7 @@ function createContent()
 
 		var dialog = bootbox.dialog({
 			title: `<div class="row g-3 align-items-center justify-content-between">
-			<div class="col-auto">
+			<div class="col-12">
 			Membuat konten <b>Baru</b> dibagian <b>${title}</b>
 			</div>
 
@@ -63,6 +63,7 @@ function createContent()
 			message: html,
 			centerVertical: true,
 			closeButton: false,
+			size: 'large',  
 			buttons: {
 				countword: {
 					label: "0",
@@ -92,8 +93,8 @@ function createContent()
 		dialog.init(function() {  		
 
 			dialog.find('.modal-dialog').addClass('modal-fullscreen');
-			dialog.find('.modal-header').addClass('d-block');		
-			dialog.find('.modal-body').addClass('p-0 overflow-hidden'); 
+			dialog.find('.modal-header').addClass('d-block border-0');		
+			dialog.find('.modal-body').addClass('p-0'); 
 			dialog.find('.modal-footer').addClass('row'); 	
 
 			$(window).bind('beforeunload', function(){
@@ -128,7 +129,7 @@ function initSummernote(content = '')
 
 	$('#summernote').summernote({
 		inheritPlaceholder: true,
-		height: "77vh",
+		// height: "50vh",
 		tabDisable: true,
 		disableDragAndDrop: true,
 		blockquoteBreakingLevel: 2,
