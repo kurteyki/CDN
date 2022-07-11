@@ -57,52 +57,56 @@ document.addEventListener("turbo:load", function() {
 			var active_text = $(this).text();
 			$(this).text($(this).data('text'));
 			$(this).data('text', active_text);
-		})
-
-		/* load after scroll on post-detail */
-		let postContent = $("#post-content"), commenthasLoaded = 0;
-		if (postContent.length > 0) {	
-			$(window).on("load scroll", function() {
-				var height = postContent.outerHeight();
-				if(($(window).scrollTop() + $(window).height()) >= height && !commenthasLoaded) {
-
-					commenthasLoaded = 1;
-
-					/* reset disqus if has loaded */
-					if (typeof DISQUS != 'undefined') {
-						$("#disqus_spinner").remove();
-						DISQUS.reset({
-							reload: true,
-							config: function () {  
-								this.page.identifier = topic_url;  
-								this.page.url = topic_url;
-							}
-						});
-					}else{					
-						/* disqus comment */
-						$.ajax({
-							type: "GET",
-							url: "https://kurteyki.disqus.com/embed.js",
-							dataType: "script",
-							cache: true,
-							success: function(output) {	
-								$("#disqus_spinner").remove();
-							}
-						});
-					}
-
-
-				}
-			});						
-		}		
+		})	
 
         // hljs
         hljs.addPlugin(new CopyButtonPlugin());
         hljs.highlightAll();
         hljs.initLineNumbersOnLoad();            
-    } 	
+    } 
+
+    /* load after scroll on post-detail */
+    disqusLoad();		    	
 
 }); 
+
+function disqusLoad(){
+	let postContent = $("#post-content"), commenthasLoaded = 0;
+	if (postContent.length > 0) {	
+		$(window).on("load scroll", function() {
+			var height = postContent.outerHeight();
+			if(($(window).scrollTop() + $(window).height()) >= height && !commenthasLoaded) {
+
+				commenthasLoaded = 1;
+
+				/* reset disqus if has loaded */
+				if (typeof DISQUS != 'undefined') {
+					$("#disqus_spinner").remove();
+					DISQUS.reset({
+						reload: true,
+						config: function () {  
+							this.page.identifier = topic_url;  
+							this.page.url = topic_url;
+						}
+					});
+				}else{		
+					/* disqus comment */
+					$.ajax({
+						type: "GET",
+						url: "https://kurteyki.disqus.com/embed.js",
+						dataType: "script",
+						cache: true,
+						success: function(output) {	
+							$("#disqus_spinner").remove();
+						}
+					});
+				}
+
+
+			}
+		});						
+	}
+}
 
 /* spinner */
 var xsetting = {
