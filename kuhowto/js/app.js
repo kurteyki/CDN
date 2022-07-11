@@ -65,18 +65,19 @@ document.addEventListener("turbo:load", function() {
         hljs.initLineNumbersOnLoad();            
     } 
 
-    /* load after scroll on post-detail */
+    /* load disqus */
     disqusLoad();		    	
 
 }); 
 
 function disqusLoad(){
 	let postContent = $("#post-content"), commenthasLoaded = 0;
-	if (postContent.length > 0) {	
-		$(window).on("load scroll", function() {
+	if (postContent.length != 0) {	
+		$(window).on("scroll", function() {
 			var height = postContent.outerHeight();
-			if(($(window).scrollTop() + $(window).height()) >= height && !commenthasLoaded) {
+			if(($(window).scrollTop() + $(window).height()) >= height && height != 0 && !commenthasLoaded) {
 
+				/* set hasLoaded > prevent call duplicate */
 				commenthasLoaded = 1;
 
 				/* reset disqus if has loaded */
