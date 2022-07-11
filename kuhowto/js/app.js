@@ -68,16 +68,29 @@ document.addEventListener("turbo:load", function() {
 
 					commenthasLoaded = 1;
 
-					/* disqus comment */
-					$.ajax({
-						type: "GET",
-						url: "https://kurteyki.disqus.com/embed.js",
-						dataType: "script",
-						cache: true,
-						success: function(output) {	
-							$("#disqus_spinner").remove();
-						}
-					});
+					/* reset disqus if has loaded */
+					if (typeof DISQUS != 'undefined') {
+						$("#disqus_spinner").remove();
+						DISQUS.reset({
+							reload: true,
+							config: function () {  
+								this.page.identifier = topic_url;  
+								this.page.url = topic_url;
+							}
+						});
+					}else{					
+						/* disqus comment */
+						$.ajax({
+							type: "GET",
+							url: "https://kurteyki.disqus.com/embed.js",
+							dataType: "script",
+							cache: true,
+							success: function(output) {	
+								$("#disqus_spinner").remove();
+							}
+						});
+					}
+
 
 				}
 			});						
