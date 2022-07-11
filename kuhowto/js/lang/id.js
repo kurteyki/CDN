@@ -1,6 +1,6 @@
 // language 
 var lang = {
-	copyed: "Berhasil Menyalin",
+	copyed: "Berhasil menyalin",
 	process : "Memproses...",
 	readFilter : "Membaca Filter...",    
 	readProfile : "Membaca Profil...",

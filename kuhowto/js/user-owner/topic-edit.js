@@ -19,26 +19,8 @@ function editTopic()
 
 			let html = '';
 			html += `
-			<form id="form-topic">
+			<form id="form-topic" enctype="multipart/form-data">
 
-
-			<ul class="nav nav-tabs" id="myTab" role="tablist">
-			<li class="nav-item" role="presentation">
-			<button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">
-			General
-			</button>
-			</li>
-			<li class="nav-item" role="presentation">
-			<button class="nav-link" id="options-tab" data-bs-toggle="tab" data-bs-target="#options" type="button" role="tab" aria-controls="options" aria-selected="false">
-			Pengaturan
-			</button>
-			</li>
-			</ul>
-			<div class="tab-content" id="myTabContent">
-
-			<div class="tab-pane py-3 show active" id="general" role="tabpanel" aria-labelledby="general-tab">
-
-			<!-- general -->
 			<div class="mb-3">
 			<label class="form-label">Title</label>
 			<input required="" name="title" type="text" class="form-control" placeholder="apa nama topiknya ?" value="${read['response']['title']}">
@@ -67,57 +49,15 @@ function editTopic()
 
 			</div>
 
-
 			<div class="mb-3">
-			<label class="form-label d-flex justify-content-between">
-
-			<div>
-			Ilustrasi
-			</div>
-
-			<div>
-			<div class="form-check form-check-inline">
-			<input required value="icon" class="form-check-input" type="radio" name="ilustrator_select" id="status-icon" ${(read['response']['ilustrator'].substr(0,2) == 'bi') ? 'checked' : ''}>
-			<label class="form-check-label" for="status-icon">Icon</label>
-			</div>
-			<div class="form-check form-check-inline">
-			<input required value="image" class="form-check-input" type="radio" name="ilustrator_select" id="status-image" ${(read['response']['ilustrator'].substr(0,2) != 'bi') ? 'checked' : ''}>
-			<label class="form-check-label text-nowrap" for="status-image">Image</label>
-			</div>
-			</div>
-
-			</label>
-
-			<div class="input-group input-icon-ilustrator ${(read['response']['ilustrator'].substr(0,2) == 'bi') ? '' : 'd-none'}">
-			<div class="input-group-prepend">
-			<span class="input-group-text h-100 selected-icon"></span>
-			</div>
-			<input type="text" class="form-control iconpicker" name="ilustrator_icon" value="${(read['response']['ilustrator'].substr(0,2) == 'bi') ? read['response']['ilustrator'] : ''}"/>
-			</div>
-			</div>
-
-			<div class="mb-3 input-image-ilustrator ${(read['response']['ilustrator'].substr(0,2) != 'bi') ? '' : 'd-none'}">
-			<input name="ilustrator_image" type="text" class="form-control" placeholder="https://..." value="${(read['response']['ilustrator'].substr(0,2) != 'bi') ? read['response']['ilustrator'] : ''}">
-			</div>	
+			<label class="form-label">Ilustrator</label>
+			<input name="ilustrator" type="file" class="form-control">
+			</div>			
 
 			<div class="mb-3">
 			<label class="form-label">Permalink</label>
 			<input required="" name="permalink" type="text" class="form-control" placeholder="insert permalink ?" value="${read['response']['permalink']}">
 			</div>			
-			<!-- general -->			
-
-			</div><!-- tab-pane -->
-
-
-			<div class="tab-pane py-3" id="options" role="tabpanel" aria-labelledby="options-tab">
-
-			<!-- options -->
-			<div>Nothing...</div>
-			<!-- options -->
-
-			</div><!-- tab-pane -->
-
-			</div>							
 
 			<input name="hash" type="hidden" value="${read['response']['hash']}">
 
@@ -146,16 +86,6 @@ function editTopic()
 				onShown : function(){
 					$("input[name=title]",$("#form-topic")).focus();
 
-					$("input[name=ilustrator_select]").click(function() {
-						if ($(this).val() == 'image') {
-							$(".input-icon-ilustrator").addClass('d-none');
-							$(".input-image-ilustrator").removeClass('d-none');
-						}else{
-							$(".input-icon-ilustrator").removeClass('d-none');
-							$(".input-image-ilustrator").addClass('d-none');
-						}
-					});
-
 					formEditTopic(dialog);
 
 					$('input', $("#form-topic")).keypress(function (e) {
@@ -163,23 +93,17 @@ function editTopic()
 							$("#form-topic").submit();
 						}
 					});		
-					
-					// init picker
-					if (read['response']['ilustrator'].substr(0,2) == 'bi') {						
-						createPicker(read['response']['ilustrator']);				
-					}else{
-						createPicker();
-					}				
+
 				}
 			});
 
 		})
-.fail(function(xhr, statusText, errorThrown) {
-	let err_message = (xhr.responseJSON) ? xhr.responseJSON.response : statusText;
-	ShowToast(err_message, true, 3000);     
-});    
+		.fail(function(xhr, statusText, errorThrown) {
+			let err_message = (xhr.responseJSON) ? xhr.responseJSON.response : statusText;
+			ShowToast(err_message, true, 3000);     
+		});    
 
-})  
+	})  
 }
 
 editTopic();
@@ -192,6 +116,9 @@ function formEditTopic(dialog)
 
 		e.preventDefault();		 		
 
+		// get form data with files
+		const formdata = new FormData($(this)[0]);
+		
 		// animation
 		$("input,textarea", form).prop("readonly",true);	
 		$(".bootbox-accept, .bootbox-cancel").prop("disabled",true);	
@@ -201,29 +128,36 @@ function formEditTopic(dialog)
 
 		e.preventDefault();				
 
-		$.post(current_url + 'topic-update', form.serialize() , {}, 'json')
-		.done(function(data){
+		$.ajax({
+			url: current_url + 'topic-update',
+			type: "POST",
+			data: formdata,
+			dataType: "json", 
+			mimeTypes:"multipart/form-data",
+			contentType: false,
+			cache: false,
+			processData: false,
+			success: function(data){
+				if (data.status) {
+					dialog.modal('hide');
+					refreshTopic();
+				}else{
+					// animation
+					$("input,textarea", form).prop("readonly",false);	
+					$(".bootbox-accept, .bootbox-cancel").prop("disabled",false);	
+					buttonspinner.remove();				
+				}
 
-			if (data.status) {
-				dialog.modal('hide');
-				refreshTopic();
-			}else{
+				ShowToast(data.response, true, 5000);
+			},error: function(xhr, statusText, errorThrown) {
+				let err_message = (xhr.responseJSON) ? xhr.responseJSON.response : statusText;
+				ShowToast(err_message, true, 3000); 
 				// animation
 				$("input,textarea", form).prop("readonly",false);	
 				$(".bootbox-accept, .bootbox-cancel").prop("disabled",false);	
-				buttonspinner.remove();				
+				buttonspinner.remove();
 			}
-
-			ShowToast(data.response, true, 5000);
-		})
-		.fail(function(xhr, statusText, errorThrown) {
-			let err_message = (xhr.responseJSON) ? xhr.responseJSON.response : statusText;
-			ShowToast(err_message, true, 3000); 
-			// animation
-			$("input,textarea", form).prop("readonly",false);	
-			$(".bootbox-accept, .bootbox-cancel").prop("disabled",false);	
-			buttonspinner.remove();
-		});
+		});		
 
 	});		
 }

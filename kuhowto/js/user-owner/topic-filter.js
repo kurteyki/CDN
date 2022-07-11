@@ -1,7 +1,6 @@
 // filter search
 $(".filter-search").on("submit", function(e){
 	e.preventDefault();
-
 	const limit = $(".filter-limit").val();
 	const search = $("input[name=searchtopics]",$(this)).val();
 	filterTopic(limit,search);
@@ -31,12 +30,11 @@ function filterTopic(limit,search) {
 	$.post(current_url + `topic-filter?limit=${limit}&search=${search}`)
 	.done(function(data){
 		if (!data.status) {
-			console.info(data);
 			ShowToast(data.response, true, 5000);                    			
 		}else{
 			$("#list-topic").html(data.response.html);
 			$("#profile-topic-count").html(data.response.count);
-			// reinit dom
+			// reinit event
 			editTopic();
 			deleteTopic();
 		}

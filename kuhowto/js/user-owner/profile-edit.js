@@ -1,180 +1,181 @@
-$("#edit-profile").on("click",function(e){
+document.addEventListener("turbo:load", function() {
+	$("#edit-profile").on("click",function(e){
 
-	const button = $(this);
+		const button = $(this);
 
-	ShowToast(lang.readProfile, false);
+		ShowToast(lang.readProfile, false);
 
-	$.post(current_url + `edit`)
-	.done(function(read){
+		$.post(current_url + `edit`)
+		.done(function(read){
 
-		if (!read.status) {
-			ShowToast(read.response, false);
-			return false;
-		}
+			if (!read.status) {
+				ShowToast(read.response, false);
+				return false;
+			}
 
-		removeToast();
+			removeToast();
 
-		// build form create
-		let html = '';
-		html += `
-
-		<form autocomplete="off" id="form-profile" enctype="multipart/form-data">
-
-		<ul class="nav nav-tabs" id="myTab" role="tablist">
-		<li class="nav-item" role="presentation">
-		<button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab" aria-controls="basic" aria-selected="true">
-		Dasar
-		</button>
-		</li>
-		<li class="nav-item" role="presentation">
-		<button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">
-		Sosial
-		</button>
-		</li>
-		<li class="nav-item" role="presentation">
-		<button class="nav-link" id="donate-tab" data-bs-toggle="tab" data-bs-target="#donate" type="button" role="tab" aria-controls="social" aria-selected="false">
-		Donate
-		</button>
-		</li>		
-		<li class="nav-item" role="presentation">
-		<button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false">
-		Keamanan
-		</button>
-		</li>
-		</ul>
-		<div class="tab-content" id="myTabContent">
-
-		<div class="tab-pane py-3 show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
-
-		<div class="mb-3">
-		<label class="form-label">New Photo</label>
-		<input name="photo" type="file" class="form-control">
-		</div>	
-
-		<div class="mb-3">
-		<label class="form-label">Intro</label>
-		<textarea name="intro" maxlength="200" class="form-control" rows="3" placeholder="saya adalah...">${read['response']['intro']}</textarea>
-		<div class="form-text">
-		limit karakter 
-		<span class="countstr">${read['response']['intro'].length}</span>/200
-		</div>
-		</div>
-
-		</div><!-- tab-pane -->
-
-		<div class="tab-pane py-3" id="social" role="tabpanel" aria-labelledby="social-tab">
-
-		<div class="mb-3 main-social">
-		<label class="form-label">Sosial Media</label>
-		
-		`;
-
-		let social_list_serve = [],iconform = '';
-		$.each(read['response']['social'],function(key,value){
-			iconform = key;
+			// build form create
+			let html = '';
 			html += `
-			<div class="input-group mb-3">
-			<span class="input-group-text">
-			<i class='bi bi-${iconform}'></i>
-			</span>
-			<input autocomplete="off" name="social_media[${key}]" type="url" class="form-control" placeholder="${key} url" value="${value}"/>
-			<span class="input-group-text social-remove" data-social="${key}">
-			<i class="bi bi-x"></i>
-			</span>
+
+			<form autocomplete="off" id="form-profile" enctype="multipart/form-data">
+
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+			<li class="nav-item" role="presentation">
+			<button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab" aria-controls="basic" aria-selected="true">
+			Dasar
+			</button>
+			</li>
+			<li class="nav-item" role="presentation">
+			<button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">
+			Sosial
+			</button>
+			</li>
+			<li class="nav-item" role="presentation">
+			<button class="nav-link" id="donate-tab" data-bs-toggle="tab" data-bs-target="#donate" type="button" role="tab" aria-controls="social" aria-selected="false">
+			Donate
+			</button>
+			</li>		
+			<li class="nav-item" role="presentation">
+			<button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false">
+			Keamanan
+			</button>
+			</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+
+			<div class="tab-pane py-3 show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
+
+			<div class="mb-3">
+			<label class="form-label">New Photo</label>
+			<input name="photo" type="file" class="form-control">
+			</div>	
+
+			<div class="mb-3">
+			<label class="form-label">Intro</label>
+			<textarea name="intro" maxlength="200" class="form-control" rows="3" placeholder="saya adalah...">${read['response']['intro']}</textarea>
+			<div class="form-text">
+			limit karakter 
+			<span class="countstr">${read['response']['intro'].length}</span>/200
 			</div>
+			</div>
+
+			</div><!-- tab-pane -->
+
+			<div class="tab-pane py-3" id="social" role="tabpanel" aria-labelledby="social-tab">
+
+			<div class="mb-3 main-social">
+			<label class="form-label">Sosial Media</label>
+			
 			`;
-			social_list_serve.push(key);
-		})
 
-		html += `</div>
-		<div class="dropdown">
-		<button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownsocial" data-bs-toggle="dropdown" aria-expanded="false">
-		Social Lainnya
-		</button>
-		<ul class="dropdown-menu social-list" aria-labelledby="dropdownsocial">
-		`;
-
-		console.info(read['response']['social']);
-		var social_list = ['facebook', 'twitter', 'instagram', 'discord', 'tiktok', 'telegram','github','linkedin'], icon = '';
-		$.each(social_list,function(key,value){
-			if ($.inArray(value,social_list_serve) == -1) {
-				icon = value;
+			let social_list_serve = [],iconform = '';
+			$.each(read['response']['social'],function(key,value){
+				iconform = key;
 				html += `
-				<li><a data-social="${value}" data-icon="${icon}" class="dropdown-item social-add" href="javascript:;">${capitalizeFirstLetter(value)}</a></li>
+				<div class="input-group mb-3">
+				<span class="input-group-text">
+				<i class='bi bi-${iconform}'></i>
+				</span>
+				<input autocomplete="off" name="social_media[${key}]" type="url" class="form-control" placeholder="${key} url" value="${value}"/>
+				<span class="input-group-text social-remove" data-social="${key}">
+				<i class="bi bi-x"></i>
+				</span>
+				</div>
 				`;
-			}
-		})
+				social_list_serve.push(key);
+			})
 
-		html += `
-		</ul>
-		</div>
-		</div><!-- tab-pane -->
+			html += `</div>
+			<div class="dropdown">
+			<button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownsocial" data-bs-toggle="dropdown" aria-expanded="false">
+			Social Lainnya
+			</button>
+			<ul class="dropdown-menu social-list" aria-labelledby="dropdownsocial">
+			`;
 
-		<div class="tab-pane py-3" id="donate" role="tabpanel" aria-labelledby="donate-tab">
-
-		<div class="mb-3">
-		<label class="form-label">Kata-Kata Donasi</label>
-		<textarea name="donate" class="form-control" rows="3" placeholder="">${read['response']['donate']}</textarea>
-		</div>
-
-		</div><!-- tab-pane -->		
-
-		<div class="tab-pane py-3" id="security" role="tabpanel" aria-labelledby="security-tab">
-
-		<div class="mb-3">
-		<label class="form-label">Masukan Password Baru</label>
-		<input autocomplete="new-password" name="pwnew" type="password" class="form-control" placeholder="*****">
-		</div>
-
-		<div class="mb-3">
-		<label class="form-label">Konfirmasi Password Baru</label>
-		<input autocomplete="new-password" name="pwnewconfirm" type="password" class="form-control" placeholder="*****">
-		</div>		
-
-		</div><!-- tab-pane -->
-		</div>	
-
-		</form>	
-		`;
-
-		let dialog = bootbox.dialog({
-			title: `Edit Profile <b>Saya</b>`,
-			message: html,
-			centerVertical: true,
-			size: 'medium',
-			buttons: {
-				cancel: {
-					label: "Batal",
-					className: 'btn-danger',
-				},
-				confirm: {
-					label: "Simpan",
-					className: 'btn-primary',
-					callback: function(){
-						$("#form-profile").submit();
-						return false;
-					}
+			console.info(read['response']['social']);
+			var social_list = ['facebook', 'twitter', 'instagram', 'discord', 'tiktok', 'telegram','github','linkedin'], icon = '';
+			$.each(social_list,function(key,value){
+				if ($.inArray(value,social_list_serve) == -1) {
+					icon = value;
+					html += `
+					<li><a data-social="${value}" data-icon="${icon}" class="dropdown-item social-add" href="javascript:;">${capitalizeFirstLetter(value)}</a></li>
+					`;
 				}
-			},
-			onShown : function(){
+			})
 
-				formProfileEdit(dialog);
+			html += `
+			</ul>
+			</div>
+			</div><!-- tab-pane -->
 
-				// init textarea max length
-				$('textarea[maxlength]').on('keyup blur', function() {
-					var maxlength = $(this).attr('maxlength');
-					var val = $(this).val();
+			<div class="tab-pane py-3" id="donate" role="tabpanel" aria-labelledby="donate-tab">
 
-					$(".countstr").html(val.length);
-				});		
+			<div class="mb-3">
+			<label class="form-label">Kata-Kata Donasi</label>
+			<textarea name="donate" class="form-control" rows="3" placeholder="">${read['response']['donate']}</textarea>
+			</div>
 
-				// social dynamic				
-				SocialAdd();
-				SocialRemove();
-			}
-		});
+			</div><!-- tab-pane -->		
 
-	})
+			<div class="tab-pane py-3" id="security" role="tabpanel" aria-labelledby="security-tab">
+
+			<div class="mb-3">
+			<label class="form-label">Masukan Password Baru</label>
+			<input autocomplete="new-password" name="pwnew" type="password" class="form-control" placeholder="*****">
+			</div>
+
+			<div class="mb-3">
+			<label class="form-label">Konfirmasi Password Baru</label>
+			<input autocomplete="new-password" name="pwnewconfirm" type="password" class="form-control" placeholder="*****">
+			</div>		
+
+			</div><!-- tab-pane -->
+			</div>	
+
+			</form>	
+			`;
+
+			let dialog = bootbox.dialog({
+				title: `Edit Profile <b>Saya</b>`,
+				message: html,
+				centerVertical: true,
+				size: 'medium',
+				buttons: {
+					cancel: {
+						label: "Batal",
+						className: 'btn-danger',
+					},
+					confirm: {
+						label: "Simpan",
+						className: 'btn-primary',
+						callback: function(){
+							$("#form-profile").submit();
+							return false;
+						}
+					}
+				},
+				onShown : function(){
+
+					formProfileEdit(dialog);
+
+					// init textarea max length
+					$('textarea[maxlength]').on('keyup blur', function() {
+						var maxlength = $(this).attr('maxlength');
+						var val = $(this).val();
+
+						$(".countstr").html(val.length);
+					});		
+
+					// social dynamic				
+					SocialAdd();
+					SocialRemove();
+				}
+			});
+
+		})
 .fail(function(xhr, statusText, errorThrown) {
 	let err_message = (xhr.responseJSON) ? xhr.responseJSON.response : statusText;
 	ShowToast(err_message, true, 3000);        
@@ -293,3 +294,5 @@ function formProfileEdit(dialog)
 function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+});
