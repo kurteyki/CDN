@@ -104,7 +104,7 @@
 		$(".bootbox-close-button").hide();
 		let buttonspinner = $(".button-spinner");		
 
-		$.post(current_url + 'section-create', form.serialize() , {}, 'json')
+		$.post(current_url + '/section-create', form.serialize() , {}, 'json')
 		.done(function(data){
 
 			if (data.status) {

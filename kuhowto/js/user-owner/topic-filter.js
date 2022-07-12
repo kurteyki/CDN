@@ -27,7 +27,7 @@ $('.filter-limit').on('change', function() {
 });
 
 function filterTopic(limit,search) {
-	$.post(current_url + `topic-filter?limit=${limit}&search=${search}`)
+	$.post(current_url + `/topic-filter?limit=${limit}&search=${search}`)
 	.done(function(data){
 		if (!data.status) {
 			ShowToast(data.response, true, 5000);                    			

@@ -1,9 +1,11 @@
+/* show loading bar when click or submit */
 ['turbo:click', 'turbo:submit-start'].forEach(function(e) {
 	window.addEventListener(e, function(){
 		Turbo.navigator.delegate.adapter.showProgressBar();     
 	});
 });
 
+/* disable form input & button when submitted */
 document.addEventListener("turbo:submit-start", ({ target }) => {
 	for (const field of target.elements) {
 		field.disabled = true
@@ -12,6 +14,10 @@ document.addEventListener("turbo:submit-start", ({ target }) => {
 
 document.addEventListener("turbo:load", function() {
 	/* load script after turbolink loaded page */
+
+	var base_url = $("meta[name='base_url']").attr('content'),
+	current_url = $("meta[name='current_url']").attr('content'),
+	is_page = $("meta[name='is_page']").attr('content');
 
 	/* footer collapse */
 	var footerCollapse = false;
@@ -31,26 +37,9 @@ document.addEventListener("turbo:load", function() {
 		footerCollapse = true;
 	}
 
-	/* imagezoom */
-	imageZoom({
-		selector: '#post-content img'
-	});
 
-	if ($(".sidepost-inner").length > 0) { 
-
-		var stickySidebar = new StickySidebar('.sidepost-inner', {
-			topSpacing: 0,
-			bottomSpacing: 10
-		});
-
-		/* clone section */
-		var sectionHasClone = false;
-		$(".section-mobile").on("click", function(){
-			if (!sectionHasClone) {
-				$(".section-copy").html($(".topic-section").clone());
-				sectionHasClone = true;
-			}
-		})    
+	/* run on page topic */
+	if (is_page == 'topic') { 
 
 		/* Table of content show hide  */
 		$(".toc_toggle").on("click",function(){
@@ -59,14 +48,37 @@ document.addEventListener("turbo:load", function() {
 			$(this).data('text', active_text);
 		})	
 
-        // hljs
-        hljs.addPlugin(new CopyButtonPlugin());
-        hljs.highlightAll();
-        hljs.initLineNumbersOnLoad();            
-    } 
+		/* imagezoom */
+		imageZoom({
+			selector: '#post-content img'
+		});			
 
-    /* load disqus */
-    disqusLoad();		    	
+		/* hljs */
+		hljs.addPlugin(new CopyButtonPlugin());
+		hljs.highlightAll();
+		hljs.initLineNumbersOnLoad();
+
+		/* section */
+		if ($(".sidepost-inner").length > 0) { 
+
+			var stickySidebar = new StickySidebar('.sidepost-inner', {
+				topSpacing: 0,
+				bottomSpacing: 10
+			});
+
+			/* clone section */
+			var sectionHasClone = false;
+			$(".section-mobile").on("click", function(){
+				if (!sectionHasClone) {
+					$(".section-copy").html($(".topic-section").clone());
+					sectionHasClone = true;
+				}
+			})
+		}
+
+		/* load disqus */
+		disqusLoad();	 
+	}	    	
 
 }); 
 

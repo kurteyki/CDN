@@ -17,7 +17,7 @@
 
     ShowToast(lang.process, false);
 
-    $.post(current_url + 'sortable-edit')
+    $.post(current_url + '/sortable-edit')
     .done(function(read){
 
         if (!read.status) {
@@ -45,7 +45,7 @@
                         $(".bootbox-accept").html($(".bootbox-accept").html() + xsetting.spinner);
                         let buttonspinner = $(".button-spinner");
 
-                        $.post(current_url + 'sortable-update', {dataposition : sortItem}, {}, 'json')
+                        $.post(current_url + '/sortable-update', {dataposition : sortItem}, {}, 'json')
                         .done(function(data){
 
                             if (data.status) {

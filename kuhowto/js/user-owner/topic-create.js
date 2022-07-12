@@ -73,7 +73,7 @@ function formCreateTopic(dialog)
 
 		let buttonspinner = $(".button-spinner");			
 
-		$.post(current_url + 'topic-create', form.serialize() , {}, 'json')
+		$.post(current_url + '/topic-create', form.serialize() , {}, 'json')
 		.done(function(data){
 
 			if (data.status) {

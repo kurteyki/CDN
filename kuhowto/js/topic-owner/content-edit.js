@@ -8,7 +8,7 @@
         ShowToast(lang.readContent, false);
 
         // read article 
-        $.post(current_url + 'content-edit', {hash : hash})
+        $.post(current_url + '/content-edit', {hash : hash})
         .done(function(read){
 
             if (!read.status) {
@@ -175,7 +175,7 @@ function formeditContent(dialog)
 
         let buttonspinner = $(".button-spinner");       
 
-        $.post(current_url + 'content-update', form.serialize() , {}, 'json')
+        $.post(current_url + '/content-update', form.serialize() , {}, 'json')
         .done(function(data){
 
             if (data.status) {

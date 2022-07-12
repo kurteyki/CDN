@@ -10,7 +10,7 @@
 
         ShowToast(lang.readSection, false);
 
-        $.post(current_url + 'section-edit', {hash : hash})
+        $.post(current_url + '/section-edit', {hash : hash})
         .done(function(read){
 
             if (!read.status) {
@@ -141,7 +141,7 @@ function formeditSection(dialog)
 
         let buttonspinner = $(".button-spinner");       
 
-        $.post(current_url + 'section-update', form.serialize() , {}, 'json')
+        $.post(current_url + '/section-update', form.serialize() , {}, 'json')
         .done(function(data){
 
             if (data.status) {

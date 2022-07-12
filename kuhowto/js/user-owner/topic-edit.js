@@ -7,7 +7,7 @@ function editTopic()
 
 		ShowToast(lang.readTopic, false);
 
-		$.post(current_url + `topic-edit`, {'hash' : data})
+		$.post(current_url + `/topic-edit`, {'hash' : data})
 		.done(function(read){
 
 			if (!read.status) {
@@ -129,7 +129,7 @@ function formEditTopic(dialog)
 		e.preventDefault();				
 
 		$.ajax({
-			url: current_url + 'topic-update',
+			url: current_url + '/topic-update',
 			type: "POST",
 			data: formdata,
 			dataType: "json", 

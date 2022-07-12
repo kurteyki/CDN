@@ -30,7 +30,7 @@ function deleteTopic()
 
                     ShowToast(lang.process, false);
                     
-                    $.post(current_url + 'topic-delete', {hash : data} , {}, 'json')
+                    $.post(current_url + '/topic-delete', {hash : data} , {}, 'json')
                     .done(function(data){
 
                         if (data.status) {

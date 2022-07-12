@@ -226,7 +226,7 @@ function formCreateContent(dialog)
 
 		let buttonspinner = $(".button-spinner");		
 
-		$.post(current_url + 'content-create', form.serialize() , {}, 'json')
+		$.post(current_url + '/content-create', form.serialize() , {}, 'json')
 		.done(function(data){
 
 			if (data.status) {
@@ -264,7 +264,7 @@ function doSave(act){
 	$(".bootbox-save").html($(".bootbox-save").html() + xsetting.spinner);
 	let buttonspinner = $(".button-spinner");    
 
-	$.post(current_url + act, form.serialize() , {}, 'json')
+	$.post(current_url + '/' + act, form.serialize() , {}, 'json')
 	.done(function(data){
 		ShowToast(data.response, true, 5000);
 

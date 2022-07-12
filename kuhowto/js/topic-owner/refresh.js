@@ -1,6 +1,6 @@
 function refreshContent(sort = false)
 {
-	$.getJSON(current_url + 'refresh')
+	$.getJSON(current_url + '/refresh')
 	.done(function(data){
 		if (data.status) {
 			$("#list-content").html(data.response);

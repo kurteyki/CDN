@@ -31,7 +31,7 @@ function deleteContent()
 
                     ShowToast(lang.process, false);
 
-                    $.post(current_url + 'content-delete', {hash : hash} , {}, 'json')
+                    $.post(current_url + '/content-delete', {hash : hash} , {}, 'json')
                     .done(function(data){
 
                         if (data.status) {

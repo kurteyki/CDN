@@ -54,6 +54,7 @@ button.close:focus{outline:none;box-shadow:none}
 @media (max-width:768px){#navbarSearch form{width:100%;}}
 .search-navbar input,.search-navbar button{border-color:#ddd}
 .search-navbar input:focus{border-color:#ddd}
+.search-navbar button:disabled{color: #ddd; border-color: #ddd!important;}
 .search-navbar button:hover{background:none;border-color:#ddd;color:#ddd}
 
 /* topic-card */
